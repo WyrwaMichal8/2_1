@@ -33,8 +33,8 @@ function esc(s) {
         .then(r => { if (!r.ok) throw new Error(r.status); return r.json() })
         .then(posts => {
           answer.innerHTML = '<ul>' + posts.map(p =>
-            `<li><strong>#${p.id} — ${esc(p.title)}</strong>
-           <div style="white-space:pre-wrap">${esc(p.body)}</div></li>`
+            `<li><h3 class="post-title""">#${p.id} — ${esc(p.title)}</h3>
+           <div class="post-body"">${esc(p.body)}</div></li>`
           ).join('') + '</ul>';
         })
         .catch(err => answer.textContent = 'Błąd: ' + err.message);
@@ -48,7 +48,7 @@ function esc(s) {
           return r.json();
         })
         .then(post => {
-          answer.innerHTML = `<div><h3>#${esc(post.id)} — ${esc(post.title)}</h3><div style="white-space:pre-wrap">${esc(post.body)}</div></div>`;
+          answer.innerHTML = `<div><h3 class="post-title">#${esc(post.id)} — ${esc(post.title)}</h3><div class="post-body">${esc(post.body)}</div></div>`;
         })
         .catch(err => {
           answer.textContent = 'Błąd: ' + err.message;
