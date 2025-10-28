@@ -24,7 +24,7 @@ function esc(s) {
         answer.innerHTML = JSON.stringify(array);
       })
   })
-
+  //TODO
   cw1.addEventListener('click', () => {
     fetch(POSTS_URL, { method: 'GET' })
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json() })
