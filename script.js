@@ -59,8 +59,33 @@ function esc(s) {
 
   });
 
-  cw2.addEventListener("click", function() {
-    //TODO
+  cw2.addEventListener('click', () => {
+    const payload = {
+      title: 'Przykładowy tytuł',
+      body: 'To jest treść nowego posta.',
+      userId: 1
+    };
+
+    answer.textContent = 'Processing…';
+
+    fetch(POSTS_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(response => {
+        if (!response.ok) throw new Error(response.status + ' ' + response.statusText);
+        return response.json();
+      })
+      .then(data => {
+        answer.textContent = `Dodano nowy post o ID = ${data.id}`;
+      })
+      .catch(err => {
+        answer.textContent = 'Wystąpił błąd: ' + err.message;
+        console.error(err);
+      });
   })
 
   cw3.addEventListener("click", function() {
