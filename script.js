@@ -26,16 +26,37 @@ function esc(s) {
   })
 
   cw1.addEventListener('click', () => {
-    answer.innerHTML = 'Ładowanie...';
-    fetch(POSTS_URL, { method: 'GET' })
-      .then(r => { if (!r.ok) throw new Error(r.status); return r.json() })
-      .then(posts => {
-        answer.innerHTML = '<ul>' + posts.map(p =>
-          `<li><strong>#${p.id} — ${esc(p.title)}</strong>
+    sel = document.getElementById('choose').value;
+    if (sel == '') {
+      answer.innerHTML = 'Ładowanie...';
+      fetch(POSTS_URL, { method: 'GET' })
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.json() })
+        .then(posts => {
+          answer.innerHTML = '<ul>' + posts.map(p =>
+            `<li><strong>#${p.id} — ${esc(p.title)}</strong>
            <div style="white-space:pre-wrap">${esc(p.body)}</div></li>`
-        ).join('') + '</ul>';
-      })
-      .catch(err => answer.textContent = 'Błąd: ' + err.message);
+          ).join('') + '</ul>';
+        })
+        .catch(err => answer.textContent = 'Błąd: ' + err.message);
+    }
+
+    else {
+      answer.innerHTML = 'Ładowanie...';
+      fetch(`https://jsonplaceholder.typicode.com/posts/${sel}`, { method: 'GET' })
+        .then(r => {
+          if (!r.ok) throw new Error(r.status + ' ' + r.statusText);
+          return r.json();
+        })
+        .then(post => {
+          answer.innerHTML = `<div><h3>#${esc(post.id)} — ${esc(post.title)}</h3><div style="white-space:pre-wrap">${esc(post.body)}</div></div>`;
+        })
+        .catch(err => {
+          answer.textContent = 'Błąd: ' + err.message;
+          console.error(err);
+        });
+    }
+
+
   });
 
   cw2.addEventListener("click", function() {
