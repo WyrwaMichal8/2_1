@@ -88,8 +88,19 @@ function esc(s) {
       });
   })
 
-  cw3.addEventListener("click", function() {
-    //TODO
+  cw3.addEventListener('click', () => {
+    sel = document.getElementById('choose').value;
+    if (!sel) {
+      console.log('Nie wybrano posta.');
+      return;
+    }
+
+    fetch(`https://jsonplaceholder.typicode.com/posts/${sel}`)
+      .then(r => r.json())
+      .then(post => {
+        console.log('Wybrany post:', post);
+      })
+      .catch(err => console.error('Błąd:', err));
   })
 
 })();
